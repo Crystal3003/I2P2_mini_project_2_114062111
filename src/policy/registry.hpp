@@ -15,6 +15,7 @@
 #include "game_history.hpp"
 #include "minimax.hpp"
 #include "random.hpp"
+#include "alpha_beta.hpp"
 
 struct AlgoEntry {
     std::string name;
@@ -39,6 +40,14 @@ inline const std::vector<AlgoEntry>& get_algo_table(){
             Random::param_defs(),
             [](State* s, int d, GameHistory& h, SearchContext& c){
                 return Random::search(s, d, h, c);
+            }
+        },
+        {
+            "alpha-beta",
+            AlphaBeta::default_params(),
+            AlphaBeta::param_defs(),
+            [](State* s, int d, GameHistory& h, SearchContext& c){
+                return AlphaBeta::search(s, d, h, c);
             }
         },
     };
