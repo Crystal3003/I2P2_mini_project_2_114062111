@@ -159,7 +159,7 @@ int State::evaluate(
         State oppo_state = *this;
         oppo_state.player = 1 - player;
         oppo_state.get_legal_actions();
-        int oppn_mobility = legal_actions.size();
+        int oppn_mobility = oppo_state.legal_actions.size();
         
         bonus += 2 * (self_mobility - oppn_mobility);
     }
