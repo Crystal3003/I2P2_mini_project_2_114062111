@@ -16,6 +16,7 @@
 #include "minimax.hpp"
 #include "random.hpp"
 #include "alpha_beta.hpp"
+#include "pvs.hpp"
 
 struct AlgoEntry {
     std::string name;
@@ -50,6 +51,14 @@ inline const std::vector<AlgoEntry>& get_algo_table(){
                 return AlphaBeta::search(s, d, h, c);
             }
         },
+        {
+            "pvs",
+            PVS::default_params(),
+            PVS::param_defs(),
+            [](State* s, int d, GameHistory& h, SearchContext& c){
+                return PVS::search(s, d, h, c);
+            }
+        }
     };
     return table;
 }

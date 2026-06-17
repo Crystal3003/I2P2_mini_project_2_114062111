@@ -21,7 +21,7 @@ static const int kp_material[7] = {0, 20, 60, 70, 80, 200, 1000};
 static const int simple_material[7] = {0, 2, 6, 7, 8, 20, 100};
 
 // Piece-Square Tables (white perspective, mirror for black)
-static const int pst[6][BOARD_H][BOARD_W] = {
+const int pst[6][BOARD_H][BOARD_W] = {
     // Pawn
     {{ 0,  0,  0,  0,  0}, {15, 15, 15, 15, 15}, { 4,  6, 10,  6,  4},
      { 2,  4,  6,  4,  2}, { 0,  2,  2,  2,  0}, { 0,  0,  0,  0,  0}},

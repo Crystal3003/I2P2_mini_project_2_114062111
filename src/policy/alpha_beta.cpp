@@ -4,9 +4,9 @@
 
 
 /*============================================================
- * MiniMax — eval_ctx
+ * AlphaBeta — eval_ctx
  *
- * Negamax without pruning. Caller manages memory.
+ * Negamax with alpha-beta pruning. Caller manages memory.
  *============================================================*/
 int AlphaBeta::eval_ctx(
     State *state,
@@ -33,9 +33,6 @@ int AlphaBeta::eval_ctx(
 
     /* === Terminal / leaf checks === */
 
-    // [ Hackathon TODO 3-1 ]
-    // return the score for a winning terminal state
-    // Hint: prefer faster wins by using ply.
     if (state->game_state == WIN){
         return P_MAX - ply;
     }
@@ -62,13 +59,9 @@ int AlphaBeta::eval_ctx(
     int best_score = M_MAX;
 
     for(auto& action : state->legal_actions){
-        // [ Hackathon TODO 3-2 ]
-        // create the child state after applying action
         State *next = state->next_state(action);
         bool same = next->same_player_as_parent();
 
-        // [Hackathon TODO 3-3]
-        // search the child one level deeper
         int raw = eval_ctx(
             next,
             depth - 1,
@@ -79,8 +72,6 @@ int AlphaBeta::eval_ctx(
             ctx,
             p
         );
-        // [Hackathon TODO 3-4]
-        // convert raw to the current player's perspective.
         int score;
         if (same)
             score = raw;
@@ -89,8 +80,6 @@ int AlphaBeta::eval_ctx(
 
         delete next;
 
-        // [ Hackathon TODO 3-5 ]
-        // update best_score if this child is better.
         if (score > best_score)
             best_score = score;
         if (best_score > alpha)
@@ -106,7 +95,7 @@ int AlphaBeta::eval_ctx(
 
 
 /*============================================================
- * MiniMax — search
+ * AlphaBeta — search
  *
  * Iterate legal moves, call eval_ctx, return SearchResult.
  *============================================================*/
@@ -131,8 +120,6 @@ SearchResult AlphaBeta::search(
     int total_moves = (int)state->legal_actions.size();
 
     for(auto& action : state->legal_actions){
-        /* [ Hackathon TODO 4-1 ]
-         * search this move like TODO 3, but starting from the root */
         State *next = state->next_state(action);
         int raw = eval_ctx(
             next,
@@ -151,8 +138,6 @@ SearchResult AlphaBeta::search(
             score = -raw;
         delete next;
         if(score > best_score){
-            // [ Hackathon TODO 4-2 ]
-            // keep this move if it is the best so far
             best_score = score;
             result.best_move = action;
             if(p.report_partial && ctx.on_root_update){
@@ -161,15 +146,13 @@ SearchResult AlphaBeta::search(
         }  
         move_index++;
     }
-    // [ Hackathon TODO 4-3 ]
-    // update result and return
     result.score = best_score;
     return result;
 } 
 
 
 /*============================================================
- * MiniMax — default_params / param_defs
+ * AlphaBeta — default_params / param_defs
  *============================================================*/
 ParamMap AlphaBeta::default_params(){
     return {

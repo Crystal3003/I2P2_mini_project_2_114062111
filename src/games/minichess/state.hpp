@@ -80,3 +80,5 @@ public:
     int board_w() const override { return BOARD_W; }
     const char* game_name() const override { return "MiniChess"; }
 };
+
+extern const int pst[6][BOARD_H][BOARD_W];
