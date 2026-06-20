@@ -7,7 +7,7 @@
 ==============================================================*/
 static const int piece_values[7] = {0, 10, 30, 35, 40, 100, 10000};
 
-int score_move(State *state, const Move& move){
+static int score_move(State *state, const Move& move){
     int self = state->player;
     int oppn = 1 - self;
 
@@ -45,7 +45,7 @@ int score_move(State *state, const Move& move){
     return 0;
 }
 
-void order_moves(State* state){
+static void order_moves(State* state){
     if (state->legal_actions.empty()){
         return;
     }
